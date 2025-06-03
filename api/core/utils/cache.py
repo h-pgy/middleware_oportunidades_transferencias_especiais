@@ -17,6 +17,7 @@ class Cache:
         if time() - timestamp < self.ttl:
             return True
         else:
+            print(f"Cache expired for key: {key}")
             del self.cache[key]
             return False
 
@@ -26,7 +27,9 @@ class Cache:
         """
         if key in self.cache:
             if self.check_ttl(key):
-                return self.cache[key][0]
+                value = self.cache[key][0]
+                print(f"Cache fetch for key: {key}")
+                return value
             else:
                 return None
         else:
@@ -36,6 +39,7 @@ class Cache:
         """
         Store an item in the cache.
         """
+        print('Setting cache for key:', key)
         self.cache[key] = (value, time())
 
     def clear(self):
@@ -47,12 +51,12 @@ class Cache:
 def cache_property(property_name:str):
     cache = Cache()
     def decorator(func):
-        def wrapper(self, *args, **kwargs):
+        def wrapper(*args, **kwargs):
            
             cached_value = cache.get(property_name)
             if cached_value is not None:
                 return cached_value
-            result = func(self, *args, **kwargs)
+            result = func(*args, **kwargs)
             cache.set(property_name, result)
             return result
         
