@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from .plano_acao import PlanoAcaoBase
+from .plano_acao import PlanoAcaoBase, PlanoAcaoDetailed
 
 class BasePage(BaseModel):
     """
@@ -15,4 +15,10 @@ class PlanoBasePage(BasePage):
     Model for paginated response of action plans.
     """
     data: list[PlanoAcaoBase]
+
+class PlanoDetailedPage(BasePage):
+    """
+    Model for paginated response of detailed action plans.
+    """
+    data: list[PlanoAcaoDetailed]
     

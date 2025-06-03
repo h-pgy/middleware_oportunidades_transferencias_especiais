@@ -21,3 +21,13 @@ class PlanoAcaoBase(BaseModel):
     situacao: str
     finalidades: list[FinalidadePlanoAcao]
     uf: str
+
+
+class PlanoAcaoDetailed(PlanoAcaoBase):
+    """
+    Detailed model for Plano de Ação.
+    """
+    modalidade: str
+    orgao: Optional[str] = None
+    dt_inicio_propostas: Optional[str] = None
+    dt_fim_propostas: Optional[str] = None

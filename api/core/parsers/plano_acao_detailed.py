@@ -1,8 +1,8 @@
 from typing import Union
 
 from .plano_acao_basico import ParsePlanoAcaoBasico
-from core.transform import injetar_detalhes_plano_acao
 from core.utils.datetime import is_valid_date
+from core.schemas.plano_acao import PlanoAcaoDetailed as PlanoAcaoDetailedSchema
 
 class PlanoAcaoDetailed:
 
@@ -68,11 +68,13 @@ class PlanoAcaoDetailed:
 
         return plano_parsed_completo
     
-    def __call__(self, plano_com_detalhes:dict) -> dict:
+    def __call__(self, plano_com_detalhes:dict, to_pydantic:bool=True) -> Union[dict, PlanoAcaoDetailedSchema]:
         """
         Allow the instance to be called like a function to get action plan details.
         """
         if not isinstance(plano_com_detalhes, dict) and 'detalhes' not in plano_com_detalhes:
             raise ValueError("Invalid action plan details provided.")
-        
-        return self.parse_all_data(plano_com_detalhes)
+        parsed_data = self.parse_all_data(plano_com_detalhes)
+        if not to_pydantic:
+            return parsed_data
+        return PlanoAcaoDetailedSchema(**parsed_data)
