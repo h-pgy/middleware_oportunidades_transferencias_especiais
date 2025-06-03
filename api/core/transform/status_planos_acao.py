@@ -7,14 +7,14 @@ class StatusPlanosAcao:
     """
 
     def load_planos(self, planos_acao=None):
-        self.planos_acao = planos_acao or list_planos_acao(all=True)
+        self.planos_acao = planos_acao or list_planos_acao(all=True)['listaPlanosAcao']
 
     def get_status_summary(self, planos_acao=None) -> dict:
         """
         Get a summary of the status of action plans.
         """
         planos_acao = self.load_planos(planos_acao)
-        status_counts = Counter(plano['planoAcaoSituacao'] for plano in self.planos_acao['listaPlanosAcao'])
+        status_counts = Counter(plano['planoAcaoSituacao'] for plano in self.planos_acao)
         return dict(status_counts)
     
     def __call__(self, planos_acao=None) -> dict:
